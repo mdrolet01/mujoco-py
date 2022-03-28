@@ -53,3 +53,5 @@ cymj.c
 *.so
 .python-version
 /build
+mujoco_py/generated/mujocopy-buildlock
+mujoco_py/test_imgs

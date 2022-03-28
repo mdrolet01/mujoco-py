@@ -104,13 +104,15 @@ ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-375/+bug/1674677
 # COPY ./vendor/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
-WORKDIR /root/mujoco_py
-COPY ./requirements.txt /root/mujoco_py/
-COPY ./requirements.dev.txt /root/mujoco_py/
+WORKDIR /root/libs/mujoco-py
+COPY ./requirements.txt /root/libs/mujoco-py/
+COPY ./requirements.dev.txt /root/libs/mujoco-py/
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
 
-COPY . /root/mujoco_py
-RUN python3 -m pip install .
+#COPY . /root/libs/mujoco-py
+#RUN python3 -m pip install .
 
+# This is used to configure pytest
 ENV REGENERATE_TEST_IMAGES 1
+# Once the container is built, make sure to run pytest from the /root/libs/mujoco_py directory to verify it works
