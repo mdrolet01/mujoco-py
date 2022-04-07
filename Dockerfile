@@ -6,6 +6,7 @@ ARG CUDA=11.2
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.1-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
+ARG GIT_PROJECT_NAME=intrinsic_project
 ARG ARCH
 ARG CUDA
 ARG CUDNN=8.1.0.77-1
@@ -104,9 +105,9 @@ ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-375/+bug/1674677
 # COPY ./vendor/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
-WORKDIR /root/libs/mujoco-py
-COPY ./requirements.txt /root/libs/mujoco-py/
-COPY ./requirements.dev.txt /root/libs/mujoco-py/
+WORKDIR /root/${GIT_PROJECT_NAME}/libs/mujoco-py
+COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libs/mujoco-py/
+COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libs/mujoco-py/
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
 
